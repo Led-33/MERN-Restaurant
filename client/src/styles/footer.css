@@ -1,0 +1,47 @@
+.footer {
+    background: #1f1f24;
+    color: white;
+}
+
+.footer h5 {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.footer p {
+    margin: 0;
+    color: #d8d8d8;
+}
+
+.footer i {
+    color: #ce1212;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: .3s;
+    font-size: 20px;
+}
+
+.social-links a:hover {
+    background: #ce1212;
+    color: white;
+    transform: translateY(-5px);
+}
+
+.footer hr {
+    opacity: .2;
+}

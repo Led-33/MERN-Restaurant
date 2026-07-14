@@ -1,0 +1,145 @@
+:root{
+    --accent:#ce1212;
+}
+
+.header{
+    background:#fff;
+    padding:18px 0;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    z-index:999;
+}
+
+.logo{
+    text-decoration:none;
+}
+
+.logo h1{
+    font-size:32px;
+    font-weight:700;
+    color:#37373f;
+    margin:0;
+}
+
+.logo span{
+    color:var(--accent);
+}
+
+.navmenu ul{
+    display:flex;
+    gap:30px;
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.navmenu a{
+    text-decoration:none;
+    color:#444;
+    font-weight:500;
+    position:relative;
+    transition:.3s;
+}
+
+.navmenu a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:0;
+    height:2px;
+    background:var(--accent);
+    transition:.3s;
+}
+
+.navmenu a:hover,
+.navmenu a.active{
+    color:var(--accent);
+}
+
+.navmenu a:hover::after,
+.navmenu a.active::after{
+    width:100%;
+}
+
+.btn-getstarted{
+    background:var(--accent);
+    color:#fff;
+    padding:10px 24px;
+    border-radius:50px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.btn-getstarted:hover{
+    background:#e02222;
+    color:white;
+}
+
+.mobile-nav-toggle{
+    display:none;
+    font-size:30px;
+    background:none;
+    border:none;
+}
+
+@media (max-width:991px){
+
+.btn-getstarted{
+    display:none;
+}
+
+.mobile-nav-toggle{
+    display:block;
+    font-size:34px;
+    cursor:pointer;
+    color:#37373f;
+    z-index:1002;
+}
+
+/* Fond sombre */
+.navmenu{
+    position:fixed;
+    top:0;
+    right:-320px;
+    width:300px;
+    height:100vh;
+    background:#fff;
+    box-shadow:-5px 0 20px rgba(0,0,0,.15);
+    transition:.4s ease;
+    z-index:1001;
+}
+
+/* Quand ouvert */
+.navmenu.active{
+    right:0;
+}
+
+.navmenu ul{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    margin-top:90px;
+    padding:0;
+}
+
+.navmenu li{
+    width:100%;
+    border-bottom:1px solid #eee;
+}
+
+.navmenu a{
+    display:block;
+    padding:18px 25px;
+    font-size:18px;
+}
+
+}
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.45);
+    z-index:1000;
+}

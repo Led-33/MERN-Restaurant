@@ -1,0 +1,106 @@
+/* SECTION MENU */
+
+.menu-section {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.menu-title h5 {
+  color: #ce1212;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.menu-title h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+/* RECHERCHE */
+
+.search-box input {
+  border-radius: 30px 0 0 30px;
+  padding: 12px;
+}
+
+.search-box button {
+  border-radius: 0 30px 30px 0;
+}
+
+/* CARTES MENU */
+
+.menu-card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: 0.3s;
+  background: #fff;
+}
+
+.menu-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.menu-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.menu-body {
+  text-align: center;
+  padding: 20px;
+}
+
+.menu-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.menu-description {
+  color: #6c757d;
+  min-height: 70px;
+}
+
+.menu-category {
+  background: #6c757d;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 30px;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.menu-price {
+  color: #ce1212;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+/* PAGINATION */
+
+.pagination-box {
+  margin-top: 40px;
+}
+
+.pagination-box button {
+  min-width: 130px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .menu-title h1 {
+    font-size: 2rem;
+  }
+
+  .menu-image {
+    height: 200px;
+  }
+
+  .menu-description {
+    min-height: auto;
+  }
+}
