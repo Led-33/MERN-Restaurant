@@ -1,22 +1,51 @@
 const mongoose = require("mongoose");
 
-const reservationSchema = new mongoose.Schema({
-  nom: {
-    type: String,
-    required: true,
+const reservationSchema = new mongoose.Schema(
+  {
+    nom: {
+      type: String,
+      required: true,
+    },
+
+    email: {
+      type: String,
+      default: "",
+    },
+
+    telephone: {
+      type: String,
+      required: true,
+    },
+
+    dateReservation: {
+      type: Date,
+      required: true,
+    },
+
+    heure: {
+      type: String,
+      default: "",
+    },
+
+    nombrePersonnes: {
+      type: Number,
+      required: true,
+    },
+
+    message: {
+      type: String,
+      default: "",
+    },
+
+    statut: {
+      type: String,
+      enum: ["En attente", "Confirmée", "Annulée"],
+      default: "En attente",
+    },
   },
-  telephone: {
-    type: String,
-    required: true,
-  },
-  dateReservation: {
-    type: Date,
-    required: true,
-  },
-  nombrePersonnes: {
-    type: Number,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("Reservation", reservationSchema);

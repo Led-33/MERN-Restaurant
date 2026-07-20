@@ -26,6 +26,10 @@ app.listen(PORT, () => {
 //Connection Plat
 const platRoutes = require("./routes/platRoutes");
 app.use("/api/plats", platRoutes);
+//connexion categorie
+const categorieRoutes = require("./routes/categorieRoutes");
+
+app.use("/api/categories", categorieRoutes);
 //connextion reservation
 const reservationRoutes = require("./routes/reservationRoutes");
 app.use("/api/reservations", reservationRoutes);
