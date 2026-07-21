@@ -10,27 +10,50 @@ function Gallery() {
 
   return (
     <section className="container py-5">
+
       <div className="text-center mb-5">
-        <h2>📸 Galerie</h2>
-        <p>Découvrez notre restaurant et nos plats</p>
+
+        <i className="bi bi-images display-3 text-danger"></i>
+
+        <h2 className="mt-3">
+          Galerie
+        </h2>
+
+        <p className="text-muted">
+          Découvrez notre restaurant et nos plats
+        </p>
+
       </div>
 
       <div className="row">
+
         {images.map((img, index) => (
-          <div key={index} className="col-md-4 col-sm-6 mb-4">
-            <img
-              src={img}
-              alt={`Galerie ${index + 1}`}
-              className="img-fluid rounded shadow"
-              style={{
-                height: "250px",
-                width: "100%",
-                objectFit: "cover",
-              }}
-            />
+
+          <div
+            key={index}
+            className="col-lg-4 col-md-6 mb-4"
+          >
+
+            <div className="card border-0 shadow overflow-hidden">
+
+              <img
+                src={img}
+                alt={`Galerie ${index + 1}`}
+                className="card-img-top"
+                style={{
+                  height: "250px",
+                  objectFit: "cover",
+                }}
+              />
+
+            </div>
+
           </div>
+
         ))}
+
       </div>
+
     </section>
   );
 }

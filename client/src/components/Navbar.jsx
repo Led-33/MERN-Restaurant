@@ -39,6 +39,7 @@ function Navbar() {
                 className={location.pathname === "/" ? "active" : ""}
                 onClick={closeMenu}
               >
+                <i className="bi bi-house-door-fill me-2"></i>
                 Accueil
               </Link>
             </li>
@@ -49,6 +50,7 @@ function Navbar() {
                 className={location.pathname === "/about" ? "active" : ""}
                 onClick={closeMenu}
               >
+                <i className="bi bi-info-circle-fill me-2"></i>
                 À propos
               </Link>
             </li>
@@ -59,6 +61,7 @@ function Navbar() {
                 className={location.pathname === "/menu" ? "active" : ""}
                 onClick={closeMenu}
               >
+                <i className="bi bi-journal-richtext me-2"></i>
                 Menu
               </Link>
             </li>
@@ -69,6 +72,7 @@ function Navbar() {
                 className={location.pathname === "/gallery" ? "active" : ""}
                 onClick={closeMenu}
               >
+                <i className="bi bi-images me-2"></i>
                 Galerie
               </Link>
             </li>
@@ -79,6 +83,7 @@ function Navbar() {
                 className={location.pathname === "/reservation" ? "active" : ""}
                 onClick={closeMenu}
               >
+                <i className="bi bi-calendar-check-fill me-2"></i>
                 Réservation
               </Link>
             </li>
@@ -89,6 +94,7 @@ function Navbar() {
                 className={location.pathname === "/contact" ? "active" : ""}
                 onClick={closeMenu}
               >
+                <i className="bi bi-envelope-fill me-2"></i>
                 Contact
               </Link>
             </li>
@@ -103,7 +109,13 @@ function Navbar() {
           className="mobile-nav-toggle"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          {menuOpen ? "✖" : "☰"}
+
+          <i
+            className={`bi ${
+              menuOpen ? "bi-x-lg" : "bi-list"
+            }`}
+          ></i>
+
         </button>
 
         {/* Bouton Réservation */}
@@ -112,7 +124,11 @@ function Navbar() {
           to="/reservation"
           className="btn-getstarted"
         >
+
+          <i className="bi bi-calendar-check-fill me-2"></i>
+
           Réserver une table
+
         </Link>
 
         

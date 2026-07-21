@@ -69,10 +69,21 @@ function Home() {
               préparés avec des ingrédients frais et de qualité.
             </p>
 
-            <ul>
-              <li>✔ Santé</li>
-              <li>✔ Saveur</li>
-              <li>✔ Satisfaction</li>
+            <ul className="list-unstyled">
+              <li className="mb-2">
+                <i className="bi bi-check-circle-fill text-danger me-2"></i>
+                Santé
+              </li>
+
+              <li className="mb-2">
+                <i className="bi bi-check-circle-fill text-danger me-2"></i>
+                Saveur
+              </li>
+
+              <li className="mb-2">
+                <i className="bi bi-check-circle-fill text-danger me-2"></i>
+                Satisfaction
+              </li>
             </ul>
 
             <p>
@@ -96,7 +107,10 @@ function Home() {
 
             <div className="col-md-4 mb-4">
               <div className="card h-100 text-center p-3">
-                <h4>📈 Évolution</h4>
+                <h4>
+                  <i className="bi bi-graph-up-arrow text-danger me-2"></i>
+                  Évolution
+                </h4>
                 <p>
                   Nous améliorons constamment nos services.
                 </p>
@@ -105,7 +119,10 @@ function Home() {
 
             <div className="col-md-4 mb-4">
               <div className="card h-100 text-center p-3">
-                <h4>💰 Prix abordables</h4>
+                <h4>
+                  <i className="bi bi-cash-coin text-danger me-2"></i>
+                  Prix abordables
+                </h4>
                 <p>
                   Des plats de qualité à des prix accessibles.
                 </p>
@@ -114,7 +131,10 @@ function Home() {
 
             <div className="col-md-4 mb-4">
               <div className="card h-100 text-center p-3">
-                <h4>📍 Emplacement</h4>
+                <h4>
+                  <i className="bi bi-geo-alt-fill text-danger me-2"></i>
+                  Emplacement
+                </h4>
                 <p>
                   Situé dans un endroit facilement accessible.
                 </p>
@@ -131,22 +151,26 @@ function Home() {
 
         <div className="row text-center">
 
-          <div className="col-md-3">
-            <h2>232+</h2>
+          <div className="col-md-3 text-center">
+            <i className="bi bi-people-fill display-4 text-danger"></i>
+            <h2 className="mt-3">232+</h2>
             <p>Clients</p>
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-3" text-center>
+            <i className="bi bi-cup-hot-fill display-4 text-danger"></i>
             <h2>135+</h2>
             <p>Plats</p>
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-3" text-center>
+            <i className="bi bi-award-fill display-4 text-danger"></i>
             <h2>15+</h2>
             <p>Partenaires</p>
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-3" text-center>
+            <i className="bi bi-person-workspace display-4 text-danger"></i>
             <h2>32+</h2>
             <p>Employés</p>
           </div>

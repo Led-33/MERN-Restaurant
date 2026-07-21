@@ -38,19 +38,28 @@ function About() {
           </p>
 
           <ul className="list-group list-group-flush">
-            <li className="list-group-item">
-              🍽️ Plats préparés avec des produits frais
-            </li>
-            <li className="list-group-item">
-              ⭐ Service professionnel et accueillant
-            </li>
-            <li className="list-group-item">
-              📅 Réservation simple et rapide
-            </li>
-            <li className="list-group-item">
-              🏆 Satisfaction client au cœur de nos priorités
-            </li>
-          </ul>
+
+          <li className="list-group-item">
+            <i className="bi bi-basket2-fill text-danger me-2"></i>
+            Plats préparés avec des produits frais
+          </li>
+
+          <li className="list-group-item">
+            <i className="bi bi-person-check-fill text-danger me-2"></i>
+            Service professionnel et accueillant
+          </li>
+
+          <li className="list-group-item">
+            <i className="bi bi-calendar-check-fill text-danger me-2"></i>
+            Réservation simple et rapide
+          </li>
+
+          <li className="list-group-item">
+            <i className="bi bi-award-fill text-danger me-2"></i>
+            Satisfaction client au cœur de nos priorités
+          </li>
+
+        </ul>
         </div>
 
       </div>

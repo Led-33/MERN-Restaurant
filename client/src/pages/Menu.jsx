@@ -31,18 +31,30 @@ function Menu() {
 
         {/* Titre */}
         <div className="text-center mb-5 menu-title">
-          <h5>NOS MENUS</h5>
+
+          <i className="bi bi-cup-hot-fill display-3 text-danger"></i>
+
+          <h5 className="mt-3 text-uppercase text-danger">
+            Nos Menus
+          </h5>
+
           <h1>Découvrez nos plats</h1>
+
         </div>
 
         {/* Recherche */}
         <div className="row justify-content-center mb-5">
           <div className="col-md-6">
             <div className="input-group search-box">
+
+              <span className="input-group-text">
+                <i className="bi bi-search"></i>
+              </span>
+
               <input
                 type="text"
                 className="form-control"
-                placeholder="🔍 Rechercher un plat..."
+                placeholder="Rechercher un plat..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -51,8 +63,10 @@ function Menu() {
                 className="btn btn-danger"
                 onClick={() => fetchPlats(1)}
               >
+                <i className="bi bi-search me-2"></i>
                 Rechercher
               </button>
+
             </div>
           </div>
         </div>
@@ -68,8 +82,9 @@ function Menu() {
 
                 <img
                   src={
-                    plat.image ||
-                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+                    plat.image
+                      ? `http://localhost:5000/uploads/${plat.image}`
+                      : "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
                   }
                   alt={plat.nom}
                   className="menu-image"
@@ -84,12 +99,20 @@ function Menu() {
                     {plat.description}
                   </p>
 
-                  <span className="menu-category">
+                  <span className="badge bg-danger">
+
+                    <i className="bi bi-tags-fill me-1"></i>
+
                     {plat.categorie}
+
                   </span>
 
-                  <h3 className="menu-price">
-                    {plat.prix} Ar
+                  <h3 className="menu-price text-danger">
+
+                    <i className="bi bi-cash-coin me-2"></i>
+
+                    {Number(plat.prix).toLocaleString()} Ar
+
                   </h3>
                 </div>
 
@@ -106,7 +129,10 @@ function Menu() {
             disabled={page === 1}
             onClick={() => fetchPlats(page - 1)}
           >
-            ⬅ Précédent
+            <>
+              <i className="bi bi-arrow-left me-2"></i>
+              Précédent
+            </>
           </button>
 
           <span className="fw-bold">
@@ -118,7 +144,10 @@ function Menu() {
             disabled={page === totalPages}
             onClick={() => fetchPlats(page + 1)}
           >
-            Suivant ➡
+            <>
+              Suivant
+              <i className="bi bi-arrow-right ms-2"></i>
+            </>
           </button>
 
         </div>

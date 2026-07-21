@@ -47,11 +47,34 @@ function Reservation() {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4">📅 Réservation</h1>
+      <div className="text-center mb-5">
 
-      <form onSubmit={handleSubmit}>
+        <i className="bi bi-calendar-check-fill display-3 text-danger"></i>
+
+        <h1 className="mt-3">
+          Réservation
+        </h1>
+
+        <p className="text-muted">
+          Réservez votre table en quelques clics.
+        </p>
+
+      </div>
+
+      <div className="row justify-content-center">
+
+  <div className="col-lg-7">
+
+    <div className="card shadow border-0">
+
+      <div className="card-body p-5">
+
+        <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label>Nom</label>
+          <label className="form-label">
+            <i className="bi bi-person-fill text-danger me-2"></i>
+            Nom
+          </label>
           <input
             type="text"
             className="form-control"
@@ -61,7 +84,10 @@ function Reservation() {
         </div>
 
         <div className="mb-3">
-          <label>Téléphone</label>
+          <label className="form-label">
+            <i className="bi bi-telephone-fill text-danger me-2"></i>
+            Téléphone
+          </label>
           <input
             type="text"
             className="form-control"
@@ -71,7 +97,10 @@ function Reservation() {
         </div>
 
         <div className="mb-3">
-          <label>Date</label>
+          <label className="form-label">
+            <i className="bi bi-calendar-event-fill text-danger me-2"></i>
+            Date de réservation
+          </label>
           <input
             type="date"
             className="form-control"
@@ -83,7 +112,10 @@ function Reservation() {
         </div>
 
         <div className="mb-3">
-          <label>Nombre de personnes</label>
+          <label className="form-label">
+            <i className="bi bi-people-fill text-danger me-2"></i>
+            Nombre de personnes
+          </label>
           <input
             type="number"
             className="form-control"
@@ -94,10 +126,27 @@ function Reservation() {
           />
         </div>
 
-        <button className="btn btn-success">
+        <button
+          type="submit"
+          className="btn btn-danger px-4"
+        >
+
+          <i className="bi bi-calendar-check-fill me-2"></i>
+
           Réserver
+
         </button>
       </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+      
     </div>
   );
 }

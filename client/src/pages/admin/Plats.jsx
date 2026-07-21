@@ -28,7 +28,6 @@ function Plats() {
 const [currentPage, setCurrentPage] = useState(1);
 const [totalPages, setTotalPages] = useState(1);
 
-const platsParPage = 10;
   const platsFiltres = plats.filter((plat) =>
   plat.nom.toLowerCase().includes(search.toLowerCase()) ||
   plat.categorie.toLowerCase().includes(search.toLowerCase())
@@ -37,7 +36,7 @@ const platsParPage = 10;
 const fetchPlats = async (page = 1) => {
   try {
     const res = await api.get(
-      `http://localhost:5000/api/plats?page=${page}`
+    `http://localhost:5000/api/plats?page=${page}&search=${search}`
     );
 
     setPlats(res.data.plats);
@@ -180,18 +179,6 @@ const supprimerPlat = async (id) => {
 
 };
 
-const indexLast = currentPage * platsParPage;
-
-const indexFirst = indexLast - platsParPage;
-
-const currentPlats = platsFiltres.slice(
-  indexFirst,
-  indexLast
-);
-
-const totalPagesFiltre = Math.ceil(
-  platsFiltres.length / platsParPage
-);
 
 return (
   <div className="container-fluid">
@@ -221,7 +208,6 @@ return (
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            setCurrentPage(1);
           }}
         />
 
@@ -331,7 +317,7 @@ return (
 
             <tbody>
 
-              {currentPlats.length === 0 ? (
+              {plats.length === 0 ? (
 
                 <tr>
 
@@ -348,7 +334,7 @@ return (
 
               ) : (
 
-                platsFiltres.map((plat) => (
+                plats.map((plat) => (
 
                   <tr key={plat._id}>
 
