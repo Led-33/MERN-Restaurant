@@ -1,10 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import "../styles/header.css";
+import { useSettings } from "../context/SettingsContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const { settings } = useSettings();
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -15,12 +17,15 @@ function Navbar() {
 
         {/* Logo */}
 
-        <Link to="/" className="logo text-decoration-none">
-          <h1>
-            Led<span>.</span>
-          </h1>
-        </Link>
-
+        {settings?.logo ? (
+              <img
+                  src={`http://localhost:5000/uploads/${settings.logo}`}
+                  alt=""
+                  height="60"
+              />
+          ) : (
+              <h2>{settings?.nomRestaurant}</h2>
+          )}
         {/* Navigation */}
         {menuOpen && (
         <div
@@ -35,8 +40,12 @@ function Navbar() {
 
             <li>
               <Link
-                to="/"
-                className={location.pathname === "/" ? "active" : ""}
+                to="/client"
+                className={
+                  location.pathname === "/client"
+                  ? "active"
+                  : ""
+                  }
                 onClick={closeMenu}
               >
                 <i className="bi bi-house-door-fill me-2"></i>

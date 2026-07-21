@@ -48,3 +48,7 @@ app.use(
 const userRoutes = require("./routes/userRoutes");
 
 app.use("/api/users", userRoutes);
+
+//parametre
+const settingRoutes = require("./routes/settingRoutes");
+app.use("/api/settings", settingRoutes);

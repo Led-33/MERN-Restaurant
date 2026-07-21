@@ -1,0 +1,76 @@
+.welcome-page {
+
+    height: 100vh;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.7),
+        rgba(0,0,0,.7)
+    ),
+    url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4");
+
+    background-size: cover;
+
+    background-position: center;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    text-align:center;
+
+}
+
+
+.welcome-content {
+
+    max-width:800px;
+
+    padding:40px;
+    position: relative;
+    z-index: 2;
+
+}
+
+
+.welcome-content h1 {
+
+    font-size:3.5rem;
+
+    font-weight:700;
+
+}
+
+
+.welcome-content h1 span {
+
+    color:#dc3545;
+
+}
+
+
+.welcome-content p {
+
+    font-size:1.2rem;
+
+    margin-top:20px;
+
+    color:#ddd;
+
+}
+.welcome-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+
+    /* important */
+    pointer-events: none;
+}
+
+.welcome-page {
+    position: relative;
+}

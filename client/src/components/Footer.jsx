@@ -1,6 +1,17 @@
 import "../styles/footer.css";
+import { useSettings } from "../context/SettingsContext";
 
 function Footer() {
+
+  const { settings } = useSettings();
+  if (!settings) {
+  return (
+    <footer className="footer bg-dark text-light p-4">
+      Chargement...
+    </footer>
+  );
+}
+
   return (
     <footer className="footer bg-dark text-light pt-5 mt-5">
       <div className="container">
@@ -14,11 +25,7 @@ function Footer() {
               <h5>Adresse</h5>
 
               <p className="mb-1">
-                516 Soanierana Ivongo
-              </p>
-
-              <p>
-                Madagascar, Analanjirofo
+                {settings?.adresse}
               </p>
             </div>
           </div>
@@ -34,15 +41,13 @@ function Footer() {
                 <strong>Téléphone :</strong>
               </p>
 
-              <p>+261 38 48 909 79</p>
+              <p>{settings?.telephone}</p>
 
               <p className="mb-1">
                 <strong>Email :</strong>
               </p>
 
-              <p>
-                maminiainaleonardo@gmail.com
-              </p>
+              <p>{settings?.email}</p>
             </div>
           </div>
 
@@ -57,7 +62,7 @@ function Footer() {
                 <strong>Lundi - Samedi</strong>
               </p>
 
-              <p>11h00 - 23h00</p>
+              <p>{settings?.ouverture} - {settings?.fermeture}</p>
 
               <p>
                 <strong>Dimanche</strong>
@@ -73,11 +78,11 @@ function Footer() {
 
             <div className="social-links mt-3">
 
-              <a href="#">
+              <a href={settings?.facebook}>
                 <i className="bi bi-facebook"></i>
               </a>
 
-              <a href="#">
+              <a href={settings?.instagram}>
                 <i className="bi bi-instagram"></i>
               </a>
 
@@ -99,7 +104,7 @@ function Footer() {
         <div className="text-center">
 
           <p className="mb-1">
-            © 2026 <strong>Led Restaurant</strong>. Tous droits réservés.
+             © {new Date().getFullYear()} {settings?.nomRestaurant}. Tous droits réservés.
           </p>
 
           <small>
