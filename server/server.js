@@ -33,3 +33,9 @@ app.use("/api/categories", categorieRoutes);
 //connextion reservation
 const reservationRoutes = require("./routes/reservationRoutes");
 app.use("/api/reservations", reservationRoutes);
+//image
+const path = require("path");
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);

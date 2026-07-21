@@ -1,17 +1,40 @@
 const express = require("express");
 const router = express.Router();
 const Plat = require("../models/Plat");
+const upload = require("../middleware/upload");
 
 // ➕ Ajouter un plat
-router.post("/", async (req, res) => {
-  try {
-    const plat = new Plat(req.body);
-    await plat.save();
-    res.json(plat);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+router.post(
+  "/",
+  upload.single("image"),
+  async (req, res) => {
+
+    try {
+
+      const plat = new Plat({
+
+        nom: req.body.nom,
+        description: req.body.description,
+        prix: req.body.prix,
+        categorie: req.body.categorie,
+        image: req.file ? req.file.filename : "",
+
+      });
+
+      await plat.save();
+
+      res.json(plat);
+
+    } catch (err) {
+
+      res.status(500).json({
+        message: err.message,
+      });
+
+    }
+
   }
-});
+);
 
 // 📄 Lire les plats avec pagination + recherche
 router.get("/", async (req, res) => {
@@ -45,19 +68,42 @@ router.get("/", async (req, res) => {
 });
 
 //modifier un plat
-router.put("/:id", async (req, res) => {
-  try {
-    const plat = await Plat.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+router.put(
+  "/:id",
+  upload.single("image"),
+  async (req, res) => {
 
-    res.json(plat);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    try {
+
+      const data = {
+        nom: req.body.nom,
+        description: req.body.description,
+        prix: req.body.prix,
+        categorie: req.body.categorie,
+      };
+
+      if (req.file) {
+        data.image = req.file.filename;
+      }
+
+      const plat = await Plat.findByIdAndUpdate(
+        req.params.id,
+        data,
+        { new: true }
+      );
+
+      res.json(plat);
+
+    } catch (err) {
+
+      res.status(500).json({
+        message: err.message,
+      });
+
+    }
+
   }
-});
+);
 
 //supprimer un plat
 router.delete("/:id", async (req, res) => {

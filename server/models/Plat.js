@@ -4,7 +4,10 @@ const platSchema = new mongoose.Schema({
   description: String,
   prix: Number,
   categorie: String,
-  image: String
+  image: {
+    type: String,
+    default: "",
+},
 });
 
 module.exports = mongoose.model("Plat", platSchema);

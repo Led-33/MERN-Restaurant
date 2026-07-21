@@ -7,6 +7,7 @@ function Categories() {
 
   const [nom, setNom] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const fetchCategories = async () => {
     try {
@@ -41,6 +42,7 @@ function Categories() {
 
       setNom("");
       setEditingId(null);
+      fermerModal();
       fetchCategories();
 
     } catch (err) {
@@ -78,6 +80,24 @@ function Categories() {
     cat.nom.toLowerCase().includes(search.toLowerCase())
   );
 
+  const ouvrirAjout = () => {
+    setNom("");
+    setEditingId(null);
+    setShowModal(true);
+  };
+
+  const ouvrirModification = (categorie) => {
+    setNom(categorie.nom);
+    setEditingId(categorie._id);
+    setShowModal(true);
+  };
+
+  const fermerModal = () => {
+    setShowModal(false);
+    setNom("");
+    setEditingId(null);
+  };
+
   return (
     <div className="container-fluid">
 
@@ -87,42 +107,20 @@ function Categories() {
 
       </div>
 
-      <div className="card shadow border-0 mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
 
-        <div className="card-body">
+    <h2>Gestion des catégories</h2>
 
-          <div className="row">
+    <button
+        className="btn btn-danger"
+        onClick={ouvrirAjout}
+    >
+        <i className="bi bi-plus-circle"></i>
 
-            <div className="col-md-9">
+        {" "}Nouvelle catégorie
+    </button>
 
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nom de la catégorie..."
-                value={nom}
-                onChange={(e) => setNom(e.target.value)}
-              />
-
-            </div>
-
-            <div className="col-md-3">
-
-              <button
-                className="btn btn-danger w-100"
-                onClick={enregistrerCategorie}
-              >
-                {editingId
-                  ? "Modifier"
-                  : "Ajouter"}
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+</div>
 
       <div className="row mb-3">
 
@@ -186,9 +184,7 @@ function Categories() {
 
                   <button
                     className="btn btn-warning btn-sm me-2"
-                    onClick={() =>
-                      modifierCategorie(cat)
-                    }
+                    onClick={() => ouvrirModification(cat)}
                   >
                     <i className="bi bi-pencil"></i>
                   </button>
@@ -213,6 +209,85 @@ function Categories() {
         </table>
 
       </div>
+
+      {showModal && (
+
+      <div
+          className="modal fade show"
+          style={{
+              display: "block",
+              background: "rgba(0,0,0,.5)"
+          }}
+      >
+
+      <div className="modal-dialog">
+
+      <div className="modal-content">
+
+      <div className="modal-header">
+
+      <h5 className="modal-title">
+
+      {editingId
+      ? "Modifier une catégorie"
+      : "Nouvelle catégorie"}
+
+      </h5>
+
+      <button
+      className="btn-close"
+      onClick={fermerModal}
+      ></button>
+
+      </div>
+
+      <div className="modal-body">
+
+      <label className="form-label">
+
+      Nom de la catégorie
+
+      </label>
+
+      <input
+      className="form-control"
+      value={nom}
+      onChange={(e)=>setNom(e.target.value)}
+      />
+
+      </div>
+
+      <div className="modal-footer">
+
+      <button
+      className="btn btn-secondary"
+      onClick={fermerModal}
+      >
+
+      Annuler
+
+      </button>
+
+      <button
+      className="btn btn-danger"
+      onClick={enregistrerCategorie}
+      >
+
+      {editingId
+      ? "Modifier"
+      : "Ajouter"}
+
+      </button>
+
+      </div>
+
+      </div>
+
+      </div>
+
+      </div>
+
+      )}
 
     </div>
   );

@@ -1,300 +1,655 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Admin() {
-  const [plats, setPlats] = useState([]);
+function Plats() {
 
+  // Liste
+  const [plats, setPlats] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  // Formulaire
   const [nom, setNom] = useState("");
   const [description, setDescription] = useState("");
   const [prix, setPrix] = useState("");
   const [categorie, setCategorie] = useState("");
+  const [image, setImage] = useState(null);
 
-  const [editId, setEditId] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  // Edition
+  const [editingId, setEditingId] = useState(null);
 
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [image, setImage] = useState("");
+  // Modal
+  const [showModal, setShowModal] = useState(false);
 
-  const navigate = useNavigate();
+  // Recherche
+  const [search, setSearch] = useState("");
 
-  // Déconnexion
-  const logout = () => {
-    localStorage.removeItem("admin");
-    navigate("/admin/login");
-  };
+  // Pagination
+  // Pagination
+const [currentPage, setCurrentPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
 
-  // Charger les plats
-  const fetchPlats = (pageNumber = 1) => {
-    axios
-      .get(`http://localhost:5000/api/plats?page=${pageNumber}`)
-      .then((res) => {
-        setPlats(res.data.plats);
-        setPage(res.data.page);
-        setTotalPages(res.data.pages);
-      })
-      .catch((err) => console.log(err));
-  };
+const platsParPage = 10;
+  const platsFiltres = plats.filter((plat) =>
+  plat.nom.toLowerCase().includes(search.toLowerCase()) ||
+  plat.categorie.toLowerCase().includes(search.toLowerCase())
+);
 
-  useEffect(() => {
-    fetchPlats(1);
-  }, []);
+const fetchPlats = async (page = 1) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/api/plats?page=${page}`
+    );
 
-  // Ajouter un plat
-  const ajouterPlat = async (e) => {
-    e.preventDefault();
+    setPlats(res.data.plats);
+    setCurrentPage(res.data.page);
+    setTotalPages(res.data.pages);
 
-    try {
-      await axios.post("http://localhost:5000/api/plats", {
-          nom,
-          description,
-          prix,
-          categorie,
-          image,
-        });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-      setNom("");
-      setDescription("");
-      setPrix("");
-      setCategorie("");
-      setImage("");
+const fetchCategories = async ()=>{
 
-      fetchPlats(page);
-    } catch (err) {
-      console.log(err);
+    try{
+
+        const res = await axios.get(
+            "http://localhost:5000/api/categories"
+        );
+
+        setCategories(res.data);
+
     }
-  };
 
-  // Supprimer un plat
-  const supprimerPlat = async (id) => {
-    try {
-      await axios.delete(
-        `http://localhost:5000/api/plats/${id}`
-      );
+    catch(err){
 
-      fetchPlats(page);
-    } catch (err) {
-      console.log(err);
+        console.log(err);
+
     }
-  };
 
-  // Modifier un plat
-  const modifierPlat = async (e) => {
-    e.preventDefault();
+};
 
-    try {
-      await axios.put(
-        `http://localhost:5000/api/plats/${editId}`,
-        {
-          nom,
-          description,
-          prix,
-          categorie,
-          image,
-        }
-      );
+useEffect(()=>{
 
-      setNom("");
-      setDescription("");
-      setPrix("");
-      setCategorie("");
-      setImage(plat.image);
+    fetchPlats();
 
-      setEditId(null);
-      setIsEditing(false);
+    fetchCategories();
 
-      fetchPlats(page);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+},[]);
 
-  // Pré-remplir le formulaire
-  const chargerModification = (plat) => {
+const ouvrirAjout = ()=>{
+
+    setEditingId(null);
+
+    setNom("");
+    setDescription("");
+    setPrix("");
+    setCategorie("");
+    setImage(null);
+
+    setShowModal(true);
+
+};
+
+const ouvrirModification = (plat)=>{
+
+    setEditingId(plat._id);
+
     setNom(plat.nom);
     setDescription(plat.description);
     setPrix(plat.prix);
     setCategorie(plat.categorie);
 
-    setEditId(plat._id);
-    setIsEditing(true);
-  };
+    setImage(null);
 
-  return (
-    <div className="container py-4">
+    setShowModal(true);
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>🧑‍💼 Administration des Plats</h1>
+};
 
-        <button
-          className="btn btn-danger"
-          onClick={logout}
-        >
-          Déconnexion
-        </button>
-      </div>
+const fermerModal=()=>{
 
-      {/* Formulaire */}
-      <form
-        className="card p-4 mb-4 shadow-sm"
-        onSubmit={isEditing ? modifierPlat : ajouterPlat}
+    setShowModal(false);
+
+};
+
+const enregistrerPlat = async (e) => {
+  e.preventDefault();
+
+  try {
+    const formData = new FormData();
+
+    formData.append("nom", nom);
+    formData.append("description", description);
+    formData.append("prix", prix);
+    formData.append("categorie", categorie);
+
+    if (image) {
+      formData.append("image", image);
+    }
+
+    if (editingId) {
+      await axios.put(
+        `http://localhost:5000/api/plats/${editingId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    } else {
+      await axios.post(
+        "http://localhost:5000/api/plats",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    }
+
+    fermerModal();
+
+    fetchPlats();
+
+  } catch (err) {
+    console.log(err);
+    alert("Erreur lors de l'enregistrement.");
+  }
+};
+
+const supprimerPlat = async (id) => {
+
+  if (!window.confirm("Supprimer ce plat ?"))
+    return;
+
+  try {
+
+    await axios.delete(
+      `http://localhost:5000/api/plats/${id}`
+    );
+
+    fetchPlats();
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+
+};
+
+const indexLast = currentPage * platsParPage;
+
+const indexFirst = indexLast - platsParPage;
+
+const currentPlats = platsFiltres.slice(
+  indexFirst,
+  indexLast
+);
+
+const totalPagesFiltre = Math.ceil(
+  platsFiltres.length / platsParPage
+);
+
+return (
+  <div className="container-fluid">
+
+    <div className="d-flex justify-content-between align-items-center mb-4">
+
+      <h2>Gestion des plats</h2>
+
+      <button
+        className="btn btn-danger"
+        onClick={ouvrirAjout}
       >
-        <h4 className="mb-3">
-          {isEditing
-            ? "✏️ Modifier un plat"
-            : "➕ Ajouter un plat"}
-        </h4>
+        <i className="bi bi-plus-circle"></i>
+        {" "}Nouveau plat
+      </button>
+
+    </div>
+
+    <div className="row mb-4">
+
+      <div className="col-md-4">
 
         <input
           type="text"
-          className="form-control mb-3"
-          placeholder="Nom du plat"
-          value={nom}
-          onChange={(e) => setNom(e.target.value)}
-          required
+          className="form-control"
+          placeholder="Rechercher un plat..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1);
+          }}
         />
-
-        <input
-          type="text"
-          className="form-control mb-3"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-
-        <input
-          type="number"
-          className="form-control mb-3"
-          placeholder="Prix"
-          value={prix}
-          onChange={(e) => setPrix(e.target.value)}
-          required
-        />
-
-        <input
-          type="text"
-          className="form-control mb-3"
-          placeholder="Catégorie"
-          value={categorie}
-          onChange={(e) => setCategorie(e.target.value)}
-          required
-        />
-
-        <input
-          type="text"
-          className="form-control mb-3"
-          placeholder="URL Image"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
-
-        <button
-          type="submit"
-          className={
-            isEditing
-              ? "btn btn-warning"
-              : "btn btn-success"
-          }
-        >
-          {isEditing
-            ? "✏️ Modifier"
-            : "➕ Ajouter"}
-        </button>
-      </form>
-
-      {/* Liste des plats */}
-      <div className="row">
-        {plats.map((plat) => (
-          <div
-            className="col-lg-4 col-md-6 mb-4"
-            key={plat._id}
-          >
-            <div className="card h-100 shadow-sm">
-              <img
-  src={plat.image}
-  alt={plat.nom}
-  className="img-fluid rounded mb-3"
-  style={{
-    height: "200px",
-    width: "100%",
-    objectFit: "cover"
-  }}
-/>
-
-              <div className="card-body">
-                <h5>{plat.nom}</h5>
-
-                <p>{plat.description}</p>
-
-                <p className="fw-bold text-success">
-                  {plat.prix} Ar
-                </p>
-
-                <span className="badge bg-secondary">
-                  {plat.categorie}
-                </span>
-              </div>
-
-              <div className="card-footer d-flex gap-2">
-
-                <button
-                  className="btn btn-warning flex-fill"
-                  onClick={() =>
-                    chargerModification(plat)
-                  }
-                >
-                  ✏️ Modifier
-                </button>
-
-                <button
-                  className="btn btn-danger flex-fill"
-                  onClick={() =>
-                    supprimerPlat(plat._id)
-                  }
-                >
-                  🗑️ Supprimer
-                </button>
-
-              </div>
-
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
-
-        <button
-          className="btn btn-outline-primary"
-          disabled={page === 1}
-          onClick={() =>
-            fetchPlats(page - 1)
-          }
-        >
-          ⬅ Précédent
-        </button>
-
-        <span className="fw-bold">
-          Page {page} / {totalPages}
-        </span>
-
-        <button
-          className="btn btn-outline-primary"
-          disabled={page === totalPages}
-          onClick={() =>
-            fetchPlats(page + 1)
-          }
-        >
-          Suivant ➡
-        </button>
 
       </div>
 
     </div>
+
+    <div className="row mb-4">
+
+      <div className="col-md-3">
+
+        <div className="card shadow border-0">
+
+          <div className="card-body">
+
+            <h6>Total des plats</h6>
+
+            <h2>{plats.length}</h2>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="col-md-3">
+
+        <div className="card shadow border-0">
+
+          <div className="card-body">
+
+            <h6>Catégories</h6>
+
+            <h2>{categories.length}</h2>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="col-md-3">
+
+        <div className="card shadow border-0">
+
+          <div className="card-body">
+
+            <h6>Prix moyen</h6>
+
+            <h2>
+              {plats.length
+                ? Math.round(
+                    plats.reduce((s, p) => s + Number(p.prix), 0) /
+                      plats.length
+                  )
+                : 0} Ar
+            </h2>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="col-md-3">
+
+        <div className="card shadow border-0">
+
+          <div className="card-body">
+
+            <h6>Page</h6>
+
+            <h2>{currentPage}</h2>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+        <div className="card shadow border-0">
+
+      <div className="card-body">
+
+        <div className="table-responsive">
+
+          <table className="table table-hover align-middle">
+
+            <thead className="table-dark">
+
+              <tr>
+
+                <th>Image</th>
+
+                <th>Nom</th>
+
+                <th>Catégorie</th>
+
+                <th>Prix</th>
+
+                <th>Actions</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {currentPlats.length === 0 ? (
+
+                <tr>
+
+                  <td
+                    colSpan="5"
+                    className="text-center py-4"
+                  >
+
+                    Aucun plat trouvé.
+
+                  </td>
+
+                </tr>
+
+              ) : (
+
+                platsFiltres.map((plat) => (
+
+                  <tr key={plat._id}>
+
+                    <td>
+
+                      <img
+                        src={
+                          plat.image
+                            ? `http://localhost:5000/uploads/${plat.image}`
+                            : "https://via.placeholder.com/80"
+                        }
+                        alt={plat.nom}
+                        className="rounded"
+                        style={{
+                          width: "80px",
+                          height: "80px",
+                          objectFit: "cover",
+                        }}
+                      />
+
+                    </td>
+
+                    <td>
+
+                      <strong>{plat.nom}</strong>
+
+                      <br />
+
+                      <small className="text-muted">
+                        {plat.description}
+                      </small>
+
+                    </td>
+
+                    <td>
+
+                      <span className="badge bg-primary">
+
+                        {plat.categorie}
+
+                      </span>
+
+                    </td>
+
+                    <td>
+
+                      <strong>
+
+                        {Number(plat.prix).toLocaleString()} Ar
+
+                      </strong>
+
+                    </td>
+
+                    <td>
+
+                      <div className="d-flex gap-2">
+
+                        <button
+                          className="btn btn-warning btn-sm"
+                          onClick={() =>
+                            ouvrirModification(plat)
+                          }
+                        >
+
+                          <i className="bi bi-pencil"></i>
+
+                        </button>
+
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() =>
+                            supprimerPlat(plat._id)
+                          }
+                        >
+
+                          <i className="bi bi-trash"></i>
+
+                        </button>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                ))
+
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
+
+    <button
+      disabled={currentPage === 1}
+      onClick={() => fetchPlats(currentPage - 1)}
+    >
+      Précédent
+    </button>
+
+    <span>
+
+      Page {currentPage} / {totalPages}
+
+    </span>
+
+    <button
+      disabled={currentPage === totalPages}
+      onClick={() => fetchPlats(currentPage + 1)}
+    >
+      Suivant
+    </button>
+
+</div>
+      {showModal && (
+        <div
+          className="modal fade show"
+          style={{
+            display: "block",
+            backgroundColor: "rgba(0,0,0,.5)",
+          }}
+        >
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {editingId
+                    ? "Modifier un plat"
+                    : "Ajouter un plat"}
+                </h5>
+
+                <button
+                  className="btn-close"
+                  onClick={fermerModal}
+                ></button>
+              </div>
+
+              <form onSubmit={enregistrerPlat}>
+
+                <div className="modal-body">
+
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Nom
+                    </label>
+
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={nom}
+                      onChange={(e) =>
+                        setNom(e.target.value)
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Description
+                    </label>
+
+                    <textarea
+                      className="form-control"
+                      rows="4"
+                      value={description}
+                      onChange={(e) =>
+                        setDescription(e.target.value)
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="row">
+
+                    <div className="col-md-6">
+
+                      <label className="form-label">
+                        Prix
+                      </label>
+
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={prix}
+                        onChange={(e) =>
+                          setPrix(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+                    <div className="col-md-6">
+
+                      <label className="form-label">
+                        Catégorie
+                      </label>
+
+                      <select
+                        className="form-select"
+                        value={categorie}
+                        onChange={(e) =>
+                          setCategorie(e.target.value)
+                        }
+                        required
+                      >
+
+                        <option value="">
+                          Choisir...
+                        </option>
+
+                        {categories.map((cat) => (
+                          <option
+                            key={cat._id}
+                            value={cat.nom}
+                          >
+                            {cat.nom}
+                          </option>
+                        ))}
+
+                      </select>
+
+                    </div>
+
+                  </div>
+
+                  <div className="mt-4">
+
+                    <label className="form-label">
+                      Image
+                    </label>
+
+                    <input
+                      type="file"
+                      className="form-control"
+                      accept="image/*"
+                      onChange={(e) =>
+                        setImage(e.target.files[0])
+                      }
+                    />
+
+                  </div>
+
+                  {image && (
+                    <div className="text-center mt-4">
+
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt="preview"
+                        className="rounded shadow"
+                        style={{
+                          maxWidth: "250px",
+                          maxHeight: "200px",
+                          objectFit: "cover",
+                        }}
+                      />
+
+                    </div>
+                  )}
+
+                </div>
+
+                <div className="modal-footer">
+
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={fermerModal}
+                  >
+                    Annuler
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="btn btn-danger"
+                  >
+                    {editingId
+                      ? "Modifier"
+                      : "Ajouter"}
+                  </button>
+
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      )}
+          </div>
   );
 }
 
-export default Admin;
+export default Plats;
