@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function Categories() {
   const [categories, setCategories] = useState([]);
@@ -11,7 +11,7 @@ function Categories() {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(
+      const res = await api.get(
         "http://localhost:5000/api/categories"
       );
       setCategories(res.data);
@@ -29,12 +29,12 @@ function Categories() {
 
     try {
       if (editingId) {
-        await axios.put(
+        await api.put(
           `http://localhost:5000/api/categories/${editingId}`,
           { nom }
         );
       } else {
-        await axios.post(
+        await api.post(
           "http://localhost:5000/api/categories",
           { nom }
         );
@@ -62,7 +62,7 @@ function Categories() {
 
     try {
 
-      await axios.delete(
+      await api.delete(
         `http://localhost:5000/api/categories/${id}`
       );
 
@@ -100,12 +100,6 @@ function Categories() {
 
   return (
     <div className="container-fluid">
-
-      <div className="d-flex justify-content-between align-items-center mb-4">
-
-        <h2>Gestion des catégories</h2>
-
-      </div>
 
       <div className="d-flex justify-content-between align-items-center mb-4">
 

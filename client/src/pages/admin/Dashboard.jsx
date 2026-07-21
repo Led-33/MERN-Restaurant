@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function Dashboard() {
 
@@ -12,7 +12,7 @@ function Dashboard() {
 
   useEffect(() => {
 
-    axios
+    api
       .get("http://localhost:5000/api/plats")
       .then((res) => {
 

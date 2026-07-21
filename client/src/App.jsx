@@ -57,11 +57,14 @@ function Layout() {
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+
           <Route path="plats" element={<Plats />} />
           <Route path="reservations" element={<Reservations />} />
           <Route path="categories" element={<Categories />} />
           <Route path="utilisateurs" element={<Utilisateurs />} />
           <Route path="parametres" element={<Parametres />} />
+
         </Route>
 
       </Routes>

@@ -5,8 +5,13 @@ function AdminHeader() {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("admin");
-    navigate("/admin/login");
+
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("user");
+
+    window.location.href="/admin/login";
+
   };
 
   return (

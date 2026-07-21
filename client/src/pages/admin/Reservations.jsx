@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function Reservations() {
   const [reservations, setReservations] = useState([]);
@@ -23,7 +23,7 @@ function Reservations() {
 
     const fetchReservations = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/reservations");
+      const res = await api.get("http://localhost:5000/api/reservations");
 
       const data = res.data.sort((a, b) => {
         return new Date(b.dateReservation) - new Date(a.dateReservation);
@@ -44,7 +44,7 @@ function Reservations() {
     if (!window.confirm("Supprimer cette réservation ?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/reservations/${id}`);
+      await api.delete(`http://localhost:5000/api/reservations/${id}`);
       fetchReservations();
     } catch (err) {
       console.log(err);
@@ -53,7 +53,7 @@ function Reservations() {
 
   const changerStatut = async (id, statut) => {
     try {
-      await axios.patch(
+      await api.patch(
         `http://localhost:5000/api/reservations/${id}/status`,
         {
           statut,

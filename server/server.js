@@ -5,9 +5,13 @@ require("dotenv").config();
 
 const app = express();
 
+const authRoutes = require("./routes/authRoutes");
+
 app.use(cors());
 app.use(express.json());
 
+
+app.use("/api/auth", authRoutes);
 // Connexion MongoDB
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB connecté"))
@@ -22,6 +26,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });
+
 
 //Connection Plat
 const platRoutes = require("./routes/platRoutes");
@@ -39,3 +44,7 @@ app.use(
   "/uploads",
   express.static(path.join(__dirname, "uploads"))
 );
+//user
+const userRoutes = require("./routes/userRoutes");
+
+app.use("/api/users", userRoutes);

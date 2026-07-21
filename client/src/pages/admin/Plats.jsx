@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 
 function Plats() {
 
@@ -36,7 +36,7 @@ const platsParPage = 10;
 
 const fetchPlats = async (page = 1) => {
   try {
-    const res = await axios.get(
+    const res = await api.get(
       `http://localhost:5000/api/plats?page=${page}`
     );
 
@@ -53,7 +53,7 @@ const fetchCategories = async ()=>{
 
     try{
 
-        const res = await axios.get(
+        const res = await api.get(
             "http://localhost:5000/api/categories"
         );
 
@@ -128,7 +128,7 @@ const enregistrerPlat = async (e) => {
     }
 
     if (editingId) {
-      await axios.put(
+      await api.put(
         `http://localhost:5000/api/plats/${editingId}`,
         formData,
         {
@@ -138,7 +138,7 @@ const enregistrerPlat = async (e) => {
         }
       );
     } else {
-      await axios.post(
+      await api.post(
         "http://localhost:5000/api/plats",
         formData,
         {
@@ -166,7 +166,7 @@ const supprimerPlat = async (id) => {
 
   try {
 
-    await axios.delete(
+    await api.delete(
       `http://localhost:5000/api/plats/${id}`
     );
 
