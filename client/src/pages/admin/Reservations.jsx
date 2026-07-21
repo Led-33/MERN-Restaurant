@@ -23,7 +23,7 @@ function Reservations() {
 
     const fetchReservations = async () => {
     try {
-      const res = await api.get("http://localhost:5000/api/reservations");
+      const res = await api.get(`${import.meta.env.VITE_API_URL}/api/reservations`);
 
       const data = res.data.sort((a, b) => {
         return new Date(b.dateReservation) - new Date(a.dateReservation);
@@ -44,7 +44,7 @@ function Reservations() {
     if (!window.confirm("Supprimer cette réservation ?")) return;
 
     try {
-      await api.delete(`http://localhost:5000/api/reservations/${id}`);
+      await api.delete(`${import.meta.env.VITE_API_URL}/api/reservations/${id}`);
       fetchReservations();
     } catch (err) {
       console.log(err);
@@ -54,7 +54,7 @@ function Reservations() {
   const changerStatut = async (id, statut) => {
     try {
       await api.patch(
-        `http://localhost:5000/api/reservations/${id}/status`,
+        `${import.meta.env.VITE_API_URL}/api/reservations/${id}/status`,
         {
           statut,
         }

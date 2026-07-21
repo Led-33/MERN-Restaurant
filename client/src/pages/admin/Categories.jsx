@@ -12,7 +12,7 @@ function Categories() {
   const fetchCategories = async () => {
     try {
       const res = await api.get(
-        "http://localhost:5000/api/categories"
+        `${import.meta.env.VITE_API_URL}/api/categories`
       );
       setCategories(res.data);
     } catch (err) {
@@ -30,12 +30,12 @@ function Categories() {
     try {
       if (editingId) {
         await api.put(
-          `http://localhost:5000/api/categories/${editingId}`,
+          `${import.meta.env.VITE_API_URL}/api/categories/${editingId}`,
           { nom }
         );
       } else {
         await api.post(
-          "http://localhost:5000/api/categories",
+          `${import.meta.env.VITE_API_URL}/api/categories`,
           { nom }
         );
       }
@@ -63,7 +63,7 @@ function Categories() {
     try {
 
       await api.delete(
-        `http://localhost:5000/api/categories/${id}`
+        `${import.meta.env.VITE_API_URL}/api/categories/${id}`
       );
 
       fetchCategories();

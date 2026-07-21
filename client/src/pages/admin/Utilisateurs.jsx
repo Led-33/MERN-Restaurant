@@ -33,7 +33,7 @@ const fetchUsers = async () => {
     try{
 
         const res = await api.get(
-            "http://localhost:5000/api/users"
+            `${import.meta.env.VITE_API_URL}/api/users`
         );
 
         setUsers(res.data);
@@ -122,7 +122,7 @@ if(editingId){
 
 await api.put(
 
-`http://localhost:5000/api/users/${editingId}`,
+`${import.meta.env.VITE_API_URL}/api/users/${editingId}`,
 
 data
 
@@ -134,7 +134,7 @@ else{
 
 await api.post(
 
-"http://localhost:5000/api/users",
+`${import.meta.env.VITE_API_URL}/api/users`,
 
 data
 
@@ -167,7 +167,7 @@ try{
 
 await api.delete(
 
-`http://localhost:5000/api/users/${id}`
+`${import.meta.env.VITE_API_URL}/api/users/${id}`
 
 );
 

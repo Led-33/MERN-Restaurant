@@ -11,7 +11,7 @@ function Menu() {
   const fetchPlats = (pageNumber = 1) => {
     axios
       .get(
-        `http://localhost:5000/api/plats?page=${pageNumber}&search=${search}`
+        `${import.meta.env.VITE_API_URL}/api/plats?page=${pageNumber}&search=${search}`
       )
       .then((res) => {
         setPlats(res.data.plats);

@@ -25,7 +25,7 @@ function Reservation() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/reservations",
+        `${import.meta.env.VITE_API_URL}/api/plats`,
         {
           nom,
           telephone,

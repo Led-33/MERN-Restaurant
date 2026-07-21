@@ -36,7 +36,7 @@ const [totalPages, setTotalPages] = useState(1);
 const fetchPlats = async (page = 1) => {
   try {
     const res = await api.get(
-    `http://localhost:5000/api/plats?page=${page}&search=${search}`
+    `${import.meta.env.VITE_API_URL}/api/plats?page=${page}&search=${search}`
     );
 
     setPlats(res.data.plats);
@@ -53,7 +53,7 @@ const fetchCategories = async ()=>{
     try{
 
         const res = await api.get(
-            "http://localhost:5000/api/categories"
+            `${import.meta.env.VITE_API_URL}/api/categories`
         );
 
         setCategories(res.data);
@@ -128,7 +128,7 @@ const enregistrerPlat = async (e) => {
 
     if (editingId) {
       await api.put(
-        `http://localhost:5000/api/plats/${editingId}`,
+        `${import.meta.env.VITE_API_URL}/api/plats/${editingId}`,
         formData,
         {
           headers: {
@@ -138,7 +138,7 @@ const enregistrerPlat = async (e) => {
       );
     } else {
       await api.post(
-        "http://localhost:5000/api/plats",
+        `${import.meta.env.VITE_API_URL}/api/plats`,
         formData,
         {
           headers: {
@@ -166,7 +166,7 @@ const supprimerPlat = async (id) => {
   try {
 
     await api.delete(
-      `http://localhost:5000/api/plats/${id}`
+      `${import.meta.env.VITE_API_URL}/api/plats/${id}`
     );
 
     fetchPlats();
@@ -343,7 +343,7 @@ return (
                       <img
                         src={
                           plat.image
-                            ? `http://localhost:5000/uploads/${plat.image}`
+                            ? `${import.meta.env.VITE_API_URL}/uploads/${plat.image}`
                             : "https://via.placeholder.com/80"
                         }
                         alt={plat.nom}

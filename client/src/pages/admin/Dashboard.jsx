@@ -13,7 +13,7 @@ function Dashboard() {
   useEffect(() => {
 
     api
-      .get("http://localhost:5000/api/plats")
+      .get(`${import.meta.env.VITE_API_URL}/api/plats`)
       .then((res) => {
 
         setStats((prev) => ({
