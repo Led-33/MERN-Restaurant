@@ -5,6 +5,7 @@ function Reservation() {
   const [nom, setNom] = useState("");
   const [telephone, setTelephone] = useState("");
   const [dateReservation, setDateReservation] = useState("");
+  const [heure, setHeure] = useState("");
   const [nombrePersonnes, setNombrePersonnes] = useState("");
 
   const handleSubmit = async (e) => {
@@ -25,11 +26,12 @@ function Reservation() {
 
     try {
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/plats`,
+        `${import.meta.env.VITE_API_URL}/api/reservations`,
         {
           nom,
           telephone,
           dateReservation,
+          heure,
           nombrePersonnes,
         }
       );
@@ -39,6 +41,7 @@ function Reservation() {
       setNom("");
       setTelephone("");
       setDateReservation("");
+      setHeure("");
       setNombrePersonnes("");
     } catch (err) {
       console.log(err);
@@ -108,6 +111,20 @@ function Reservation() {
             onChange={(e) =>
               setDateReservation(e.target.value)
             }
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">
+            <i className="bi bi-clock-fill text-danger me-2"></i>
+            Heure de réservation
+          </label>
+
+          <input
+            type="time"
+            className="form-control"
+            value={heure}
+            onChange={(e) => setHeure(e.target.value)}
+            required
           />
         </div>
 
