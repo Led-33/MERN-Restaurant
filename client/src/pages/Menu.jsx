@@ -83,7 +83,7 @@ function Menu() {
                 <img
                   src={
                     plat.image
-                      ? `http://localhost:5000/uploads/${plat.image}`
+                      ? `${import.meta.env.VITE_API_URL}/uploads/${plat.image}`
                       : "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
                   }
                   alt={plat.nom}
