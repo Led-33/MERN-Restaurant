@@ -10,21 +10,26 @@ function Dashboard() {
     utilisateurs: 1,
   });
 
-  useEffect(() => {
+useEffect(() => {
+  Promise.all([
+    api.get(`${import.meta.env.VITE_API_URL}/api/plats`),
+    api.get(`${import.meta.env.VITE_API_URL}/api/reservations`),
+    api.get(`${import.meta.env.VITE_API_URL}/api/categories`),
+    api.get(`${import.meta.env.VITE_API_URL}/api/users`)
+  ])
+  .then(([plats, reservations, categories, users]) => {
 
-    api
-      .get(`${import.meta.env.VITE_API_URL}/api/plats`)
-      .then((res) => {
+    setStats({
+      plats: plats.data.total,
+      reservations: reservations.data.length,
+      categories: categories.data.length,
+      utilisateurs: users.data.length,
+    });
 
-        setStats((prev) => ({
-          ...prev,
-          plats: res.data.total || res.data.plats.length,
-        }));
+  })
+  .catch((err) => console.error(err));
 
-      })
-      .catch(console.log);
-
-  }, []);
+}, []);
 
   return (
     <div>
